@@ -1,0 +1,107 @@
+<html><head><base href="https://colorscience.io/macbeth-chart/" /><title>Interactive Color Macbeth Chart - ColorScience.io</title><style>
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+h1 {
+  color: #333;
+  margin-bottom: 20px;
+}
+.macbeth-chart {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  max-width: 600px;
+}
+.color-square {
+  width: 80px;
+  height: 80px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.color-square:hover {
+  transform: scale(1.05);
+}
+#color-info {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  max-width: 600px;
+  width: 100%;
+}
+</style><script type="text/javascript" nonce="3ef5692b142a4420908a6375302" src="//local.adguard.org?ts=1721274919612&amp;type=content-script&amp;dmn=party.websim.ai&amp;url=https%3A%2F%2Fparty.websim.ai%2Fapi%2Fv1%2Fsites%2FJ2acgLiwwldR0UfrB%2Fhtml%3Fraw%3Dtrue&amp;app=com.google.Chrome&amp;css=3&amp;js=1&amp;rel=1&amp;rji=1&amp;sbe=1"></script>
+<script type="text/javascript" nonce="3ef5692b142a4420908a6375302" src="//local.adguard.org?ts=1721274919612&amp;name=AdGuard%20Assistant&amp;name=AdGuard%20Extra&amp;type=user-script"></script></head><body>
+<h1>Interactive Color Macbeth Chart</h1>
+<div class="macbeth-chart" id="chart"></div>
+<div id="color-info"></div>
+
+<script>
+const colors = [
+  { name: "Dark Skin", hex: "#735244", rgb: [115, 82, 68] },
+  { name: "Light Skin", hex: "#c29682", rgb: [194, 150, 130] },
+  { name: "Blue Sky", hex: "#627a9d", rgb: [98, 122, 157] },
+  { name: "Foliage", hex: "#576c43", rgb: [87, 108, 67] },
+  { name: "Blue Flower", hex: "#8580b1", rgb: [133, 128, 177] },
+  { name: "Bluish Green", hex: "#67bdaa", rgb: [103, 189, 170] },
+  { name: "Orange", hex: "#d67e2c", rgb: [214, 126, 44] },
+  { name: "Purplish Blue", hex: "#505ba6", rgb: [80, 91, 166] },
+  { name: "Moderate Red", hex: "#c15a63", rgb: [193, 90, 99] },
+  { name: "Purple", hex: "#5e3c6c", rgb: [94, 60, 108] },
+  { name: "Yellow Green", hex: "#9dbc40", rgb: [157, 188, 64] },
+  { name: "Orange Yellow", hex: "#e0a32e", rgb: [224, 163, 46] },
+  { name: "Blue", hex: "#383d96", rgb: [56, 61, 150] },
+  { name: "Green", hex: "#469449", rgb: [70, 148, 73] },
+  { name: "Red", hex: "#af363c", rgb: [175, 54, 60] },
+  { name: "Yellow", hex: "#e7c71f", rgb: [231, 199, 31] },
+  { name: "Magenta", hex: "#bb5695", rgb: [187, 86, 149] },
+  { name: "Cyan", hex: "#0885a1", rgb: [8, 133, 161] },
+  { name: "White", hex: "#f3f3f2", rgb: [243, 243, 242] },
+  { name: "Neutral 8", hex: "#c8c8c8", rgb: [200, 200, 200] },
+  { name: "Neutral 6.5", hex: "#a0a0a0", rgb: [160, 160, 160] },
+  { name: "Neutral 5", hex: "#7a7a79", rgb: [122, 122, 121] },
+  { name: "Neutral 3.5", hex: "#555555", rgb: [85, 85, 85] },
+  { name: "Black", hex: "#343434", rgb: [52, 52, 52] }
+];
+
+const chart = document.getElementById('chart');
+const colorInfo = document.getElementById('color-info');
+
+colors.forEach(color => {
+  const square = document.createElement('div');
+  square.className = 'color-square';
+  square.style.backgroundColor = color.hex;
+  square.addEventListener('click', () => showColorInfo(color));
+  chart.appendChild(square);
+});
+
+function showColorInfo(color) {
+  const [r, g, b] = color.rgb;
+  const luminance = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+  const perceivableLuminance = Math.pow(luminance, 1/3) * 100;
+  
+  let description = `<h2>${color.name}</h2>`;
+  description += `<p>Hex: ${color.hex}</p>`;
+  description += `<p>RGB: ${color.rgb.join(', ')}</p>`;
+  description += `<p>Perceived Brightness: ${perceivableLuminance.toFixed(2)}%</p>`;
+  
+  if (color.name === "Dark Skin") {
+    description += "<p>This color represents a deep, rich skin tone. It's often used in color accuracy tests to ensure proper rendering of darker skin tones in photography and printing.</p>";
+  } else if (color.name === "Blue Sky") {
+    description += "<p>This hue mimics the color of a clear daytime sky. It's a balanced blue that's neither too saturated nor too pale, representing an idealized sky color.</p>";
+  } else if (color.name === "Neutral 5") {
+    description += "<p>This is a mid-gray tone, sitting exactly in the middle of the grayscale. It's crucial for calibrating the gamma and contrast of displays and printers.</p>";
+  }
+  
+  colorInfo.innerHTML = description;
+}
+
+showColorInfo(colors[0]); // Show info for the first color by default
+</script>
+</body></html>
